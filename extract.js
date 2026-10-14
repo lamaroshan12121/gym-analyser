@@ -89,21 +89,54 @@ const interaction = await client.interactions.create({
 
 const result = JSON.parse(interaction.output_text);
 
-// Clean an exercise name: join wrapped lines, drop anything after a colon
+// Alternative names -> one standard name. Add your own over time.
+// Keys must be lowercase. Names not in this list are left as written.
+const nameAliases = {
+  "db curl": "Dumbbell Curl",
+  "db curls": "Dumbbell Curl",
+  "bp": "Bench Press",
+  "incline bench": "Incline Bench Press",
+};
+
+// Clean an exercise name: join wrapped lines, drop anything after a colon,
+// then swap in the standard name if we have one
 function cleanName(name) {
-  return name.replace(/\s*\n\s*/g, " ").split(":")[0].trim();
+  const cleaned = name.replace(/\s*\n\s*/g, " ").split(":")[0].trim();
+  return nameAliases[cleaned.toLowerCase()] || cleaned;
+}
+
+// Look for numbers that can't be right. Returns a list of problems (empty = fine)
+function findProblems(item) {
+  const problems = [];
+
+  if (!(item.weight_kg > 0 && item.weight_kg <= 500)) {
+    problems.push(`weight of ${item.weight_kg}kg looks wrong`);
+  }
+  if (!(item.sets >= 1 && item.sets <= 20)) {
+    problems.push(`${item.sets} sets looks wrong`);
+  }
+  for (const reps of item.reps_per_set) {
+    if (!(reps >= 1 && reps <= 100)) {
+      problems.push(`${reps} reps looks wrong`);
+    }
+  }
+  if (item.reps_per_set.length !== item.sets) {
+    problems.push(
+      `${item.sets} sets but ${item.reps_per_set.length} rep entries`
+    );
+  }
+
+  return problems;
 }
 
 for (const item of result.exercises) {
   item.exercise = cleanName(item.exercise);
-}
 
-// Safety check: number of sets should match the number of rep entries
-for (const item of result.exercises) {
-  if (item.reps_per_set.length !== item.sets) {
-    console.log(
-      `Warning: ${item.exercise} has ${item.sets} sets but ${item.reps_per_set.length} rep entries`
-    );
+  const problems = findProblems(item);
+  item.needs_review = problems.length > 0;
+
+  for (const problem of problems) {
+    console.log(`Warning: ${item.exercise}: ${problem}`);
   }
 }
 
