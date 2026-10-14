@@ -38,8 +38,11 @@ Lines are written in different styles, for example:
 - "Exercise name: 40kg 2set 9reps"
 - "Incline Bench 70*2*8" (weight * sets * reps)
 - "Chest fly 22kg*2*7,8" (weight * sets * reps for each set)
+A single line may wrap onto two lines in the screenshot. Treat a wrapped line as one entry.
 Extract every exercise. For each one return:
-- exercise: the name exactly as written
+- exercise: ONLY the exercise name, written as in the note. Do not include the
+  weight, sets, reps, a colon, or any line break. If the name wraps across two
+  lines, join it into one name with a single space.
 - weight_kg: the weight in kilograms, as a number (assume kg if no unit is written)
 - sets: the number of sets
 - reps_per_set: an array with one rep number for each set.
@@ -85,6 +88,15 @@ const interaction = await client.interactions.create({
 });
 
 const result = JSON.parse(interaction.output_text);
+
+// Clean an exercise name: join wrapped lines, drop anything after a colon
+function cleanName(name) {
+  return name.replace(/\s*\n\s*/g, " ").split(":")[0].trim();
+}
+
+for (const item of result.exercises) {
+  item.exercise = cleanName(item.exercise);
+}
 
 // Safety check: number of sets should match the number of rep entries
 for (const item of result.exercises) {
