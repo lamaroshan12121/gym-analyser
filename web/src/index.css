@@ -1,6 +1,106 @@
+:root {
+  color-scheme: dark;
+
+  /* Surfaces, darkest to lightest */
+  --bg: #0b0c12;
+  --bg-grad: radial-gradient(
+    120% 80% at 50% 0%,
+    #16182a 0%,
+    #0b0c12 55%
+  );
+  --surface: #15161f;
+  --surface-2: #1e202c;
+  --surface-3: #262938;
+
+  --border: #2a2d3d;
+  --border-soft: #21232f;
+
+  /* Violet drives actions, lime is reserved for measured values */
+  --accent: #7c5cff;
+  --accent-hover: #9c85ff;
+  --accent-soft: rgba(124, 92, 255, 0.14);
+  --accent-ring: rgba(124, 92, 255, 0.5);
+
+  --metric: #b6f36a;
+  --metric-soft: rgba(182, 243, 106, 0.12);
+  --metric-border: rgba(182, 243, 106, 0.28);
+
+  --text: #ecedf2;
+  --text-dim: #9a9cab;
+  --text-faint: #6c6f80;
+
+  --danger: #ff8092;
+  --danger-bg: rgba(255, 107, 126, 0.12);
+  --danger-border: rgba(255, 107, 126, 0.32);
+
+  --success: #7ee8a2;
+  --success-bg: rgba(126, 232, 162, 0.12);
+  --success-border: rgba(126, 232, 162, 0.3);
+
+  --warn: #ffd27a;
+  --warn-bg: rgba(255, 210, 122, 0.1);
+  --warn-border: rgba(255, 210, 122, 0.32);
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.28);
+
+  --tabbar-h: 62px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: #15161c;
-  color: #eeeeee;
+  min-height: 100svh;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  background: var(--bg);
+  background-image: var(--bg-grad);
+  background-attachment: fixed;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

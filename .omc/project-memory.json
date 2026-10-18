@@ -1,0 +1,157 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1792299883129,
+  "projectRoot": "C:\\Learning\\gym-analyser",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "npm test",
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "api": {
+      "path": "api",
+      "purpose": "API routes",
+      "fileCount": 2,
+      "lastAccessed": 1792299883049,
+      "keyFiles": [
+        "extract.js",
+        "report.js"
+      ]
+    },
+    "web": {
+      "path": "web",
+      "purpose": null,
+      "fileCount": 7,
+      "lastAccessed": 1792299883050,
+      "keyFiles": [
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "README.md",
+        "vite.config.js"
+      ]
+    },
+    "web\\dist": {
+      "path": "web\\dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 3,
+      "lastAccessed": 1792299883068,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg",
+        "index.html"
+      ]
+    },
+    "web\\node_modules": {
+      "path": "web\\node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1792299883069,
+      "keyFiles": []
+    },
+    "web\\public": {
+      "path": "web\\public",
+      "purpose": "Public files",
+      "fileCount": 2,
+      "lastAccessed": 1792299883069,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg"
+      ]
+    },
+    "web\\src": {
+      "path": "web\\src",
+      "purpose": "Source code",
+      "fileCount": 5,
+      "lastAccessed": 1792299883070,
+      "keyFiles": [
+        "App.css",
+        "App.jsx",
+        "index.css"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "web\\src\\App.jsx",
+      "accessCount": 4,
+      "lastAccessed": 1792300526722,
+      "type": "file"
+    },
+    {
+      "path": "web\\src\\App.css",
+      "accessCount": 3,
+      "lastAccessed": 1792300520656,
+      "type": "file"
+    },
+    {
+      "path": "web\\index.html",
+      "accessCount": 2,
+      "lastAccessed": 1792300343169,
+      "type": "file"
+    },
+    {
+      "path": "web\\src\\index.css",
+      "accessCount": 2,
+      "lastAccessed": 1792300359400,
+      "type": "file"
+    },
+    {
+      "path": "web\\src\\stats.js",
+      "accessCount": 1,
+      "lastAccessed": 1792299985217,
+      "type": "file"
+    },
+    {
+      "path": "web\\src\\main.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1792300053830,
+      "type": "file"
+    },
+    {
+      "path": "web\\package.json",
+      "accessCount": 1,
+      "lastAccessed": 1792300054398,
+      "type": "file"
+    },
+    {
+      "path": "web\\public\\icons.svg",
+      "accessCount": 1,
+      "lastAccessed": 1792300054807,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
