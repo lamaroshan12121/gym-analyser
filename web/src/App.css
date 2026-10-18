@@ -150,3 +150,43 @@ input.reps {
   font-size: 0.9rem;
   color: #9a9cab;
 }
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.stat-card {
+  padding: 16px 12px;
+  border: 1px solid #33343f;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: #9a9cab;
+}
+
+.muscle-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #2c2d3a;
+  font-size: 0.9rem;
+}

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
+import { computeStats } from "./stats.js";
 
 const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
 const STORAGE_KEY = "gymSessions";
@@ -101,6 +102,14 @@ export default function App() {
   const [showEditor, setShowEditor] = useState(false);
   const [sessions, setSessions] = useState(loadSessions);
   const [savedMessage, setSavedMessage] = useState("");
+
+  // Recalculate the stats whenever the saved sessions change
+  const stats = useMemo(() => computeStats(sessions), [sessions]);
+
+  // Muscle groups with the most sets this week first
+  const muscleSets = Object.entries(stats.thisWeek.setsByMuscle).sort(
+    (a, b) => b[1] - a[1]
+  );
 
   function handleFileChange(event) {
     const chosen = event.target.files[0];
@@ -331,6 +340,95 @@ export default function App() {
             </button>
           </div>
         ))
+      )}
+
+      {sessions.length > 0 && (
+        <div>
+          <h2>This week</h2>
+          <div className="stat-cards">
+            <div className="stat-card">
+              <span className="stat-value">{stats.thisWeek.sessionCount}</span>
+              <span className="stat-label">Sessions</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">{stats.thisWeek.totalSets}</span>
+              <span className="stat-label">Total sets</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-value">
+                {Math.round(stats.thisWeek.volumeKg).toLocaleString()}
+              </span>
+              <span className="stat-label">Volume (kg)</span>
+            </div>
+          </div>
+
+          {muscleSets.length > 0 ? (
+            <div className="muscle-list">
+              {muscleSets.map(([group, setCount]) => (
+                <span className="tag" key={group}>
+                  {group}: {setCount} {setCount === 1 ? "set" : "sets"}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="subtitle">No sessions saved this week yet.</p>
+          )}
+
+          <h2>Personal bests</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Exercise</th>
+                <th>kg</th>
+                <th>First lifted</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stats.personalBests.map((pb) => (
+                <tr key={pb.exercise}>
+                  <td>{pb.exercise}</td>
+                  <td>{pb.weight_kg}</td>
+                  <td>{pb.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <h2>Stalled lifts</h2>
+          {stats.stalledLifts.length === 0 ? (
+            <p className="subtitle">
+              None. A lift shows up here when its top weight stays the same for 3
+              weeks in a row.
+            </p>
+          ) : (
+            stats.stalledLifts.map((lift) => (
+              <div className="session" key={lift.exercise}>
+                <span>
+                  <strong>{lift.exercise}</strong>: {lift.weight_kg}kg for{" "}
+                  {lift.weeks} weeks in a row
+                </span>
+              </div>
+            ))
+          )}
+
+          <h2>Days since last trained</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Exercise</th>
+                <th>Days</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stats.daysSince.map((item) => (
+                <tr key={item.exercise}>
+                  <td>{item.exercise}</td>
+                  <td>{item.days}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
