@@ -14,6 +14,12 @@ h2 {
   font-size: 1.2rem;
 }
 
+h3 {
+  margin: 20px 0 6px;
+  font-size: 1rem;
+  color: #9a9cab;
+}
+
 .subtitle {
   margin: 0 0 24px;
   color: #9a9cab;
@@ -189,4 +195,23 @@ input.reps {
   border-radius: 999px;
   background: #2c2d3a;
   font-size: 0.9rem;
+}
+
+.report {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #33343f;
+  border-radius: 8px;
+}
+
+.report-summary {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.report ul {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.6;
 }

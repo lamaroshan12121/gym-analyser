@@ -102,6 +102,9 @@ export default function App() {
   const [showEditor, setShowEditor] = useState(false);
   const [sessions, setSessions] = useState(loadSessions);
   const [savedMessage, setSavedMessage] = useState("");
+  const [report, setReport] = useState(null);
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportError, setReportError] = useState("");
 
   // Recalculate the stats whenever the saved sessions change
   const stats = useMemo(() => computeStats(sessions), [sessions]);
@@ -164,6 +167,32 @@ export default function App() {
     }
   }
 
+  async function handleReport() {
+    setReportLoading(true);
+    setReportError("");
+    setReport(null);
+
+    try {
+      const response = await fetch("/api/report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stats }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
+
+      setReport(data);
+    } catch (err) {
+      setReportError(err.message);
+    } finally {
+      setReportLoading(false);
+    }
+  }
+
   function updateRow(id, field, value) {
     setRows(rows.map((row) => (row.id === id ? { ...row, [field]: value } : row)));
   }
@@ -200,6 +229,7 @@ export default function App() {
 
     if (storeSessions(updated)) {
       setSessions(updated);
+      setReport(null);
       setRows([]);
       setShowEditor(false);
       setSavedMessage("Session saved.");
@@ -212,6 +242,7 @@ export default function App() {
     const updated = sessions.filter((session) => session.id !== id);
     if (storeSessions(updated)) {
       setSessions(updated);
+      setReport(null);
     }
   }
 
@@ -428,6 +459,44 @@ export default function App() {
               ))}
             </tbody>
           </table>
+
+          <h2>Weekly coach report</h2>
+          <button onClick={handleReport} disabled={reportLoading}>
+            {reportLoading ? "Writing report..." : "Generate report"}
+          </button>
+
+          {reportError && <div className="error">{reportError}</div>}
+
+          {report && (
+            <div className="report">
+              <p className="report-summary">{report.summary}</p>
+
+              <h3>Progress</h3>
+              <ul>
+                {report.progress.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+
+              <h3>Flags</h3>
+              {report.flags.length === 0 ? (
+                <p className="subtitle">Nothing to flag this week.</p>
+              ) : (
+                <ul>
+                  {report.flags.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              )}
+
+              <h3>Next week</h3>
+              <ul>
+                {report.suggestions.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>
